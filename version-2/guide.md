@@ -6,7 +6,7 @@
   docker exec -it postgres bash
   apt-get update && apt-get install nano
   nano /var/lib/postgresql/data/postgresql.conf
-  input >>>> wal_level = logical
+  input: `wal_level = logical`
   docker restart postgres
 
 3. set replica identity
@@ -14,29 +14,28 @@
   alter table public."user" replica identity full;
 
 4. create connector
-  docker cp ./debezium-blink.json debezium:/debezium-blink.json
+  docker cp ./debezium.json debezium:/debezium.json
   docker exec -i debezium curl -H 'Content-Type: application/json' 0.0.0.0:8083/connectors --data @/debezium-blink.json
-  docker exec -i debezium curl --location 'http://localhost:8083/connectors' \
+  <!-- docker exec -i debezium curl --location 'http://localhost:8083/connectors' \
     --header 'Accept: application/json' \
     --header 'Content-Type: application/json' \
-    --data @/debezium-blink.json
-
+    --data @/debezium-blink.json -->
 ## connector
 
 ```bash
 {
   "name": "blink-cdc-using-debezium-connector",
   "config": {
-  "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
-  "plugin.name": "pgoutput",
-  "database.hostname": "postgres",
-  "database.port": "5432",
-  "database.user": "postgres",
-  "database.password": "123456",
-  "database.dbname": "mybl-workspace",
-  "database.server.name": "mybl-workspace",
-  "table.include.list": "public.TB_ACCOUNT, public.TB_ANS_TYPE, public.TB_ANSWER",
-  "topic.prefix": "mybl-workspace"
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "plugin.name": "pgoutput",
+    "database.hostname": "postgres",
+    "database.port": "5432",
+    "database.user": "postgres",
+    "database.password": "123456",
+    "database.dbname": "mybl-workspace",
+    "database.server.name": "mybl-workspace",
+    "table.include.list": "public.TB_ACCOUNT, public.TB_ANS_TYPE, public.TB_ANSWER",
+    "topic.prefix": "mybl-workspace"
   }
 }
 ```
