@@ -7,10 +7,16 @@
     "database.port": "5432",
     "database.user": "postgres",
     "database.password": "123456",
-    "database.dbname" : "debezium",
+    "database.dbname": "debezium",
     "database.server.name": "postgres",
     "table.include.list": "public.user",
-    "topic.prefix" : "dbz",
-    "table.topic.name.override": "public.task:cdc-table-debezium"
+    "topic.prefix": "dbz",
+    "snapshot.mode": "never",
+    "_comment_snapshot.mode": "never push old message into topic when restart debezium",
+    "transforms": "Combine",
+    "transforms.Combine.type": "io.debezium.transforms.ByLogicalTableRouter",
+    "transforms.Combine.topic.regex": "(.*)",
+    "transforms.Combine.topic.replacement": "one-om-blink-dev-inquiry-update_private",
+    "_comment_transforms": "customize topic name"
   }
 }
