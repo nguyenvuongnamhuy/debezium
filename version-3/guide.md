@@ -9,7 +9,7 @@ docker compose up -d
 Access into postgres container
 
 ```bash
-docker exec -it version-3-postgres-1 bash
+docker exec -it debezium-postgres bash
 ```
 
 Insert `wal_level = logical` directly
@@ -29,7 +29,7 @@ input: `wal_level = logical`
 Restart postgres container
 
 ```bash
-docker restart version-3-postgres-1
+docker restart debezium-postgres
 ```
 
 <!-- 3. set replica identity
@@ -41,21 +41,21 @@ alter table public."user" replica identity full; -->
 Copy connector config into debezium container
 
 ```bash
-docker cp ./debezium.json version-3-debezium-1:/debezium.json
+docker cp ./debezium.json debezium-debezium:/debezium.json
 ```
 
 Register a new connector
 
 ```bash
-docker exec -i version-3-debezium-1 curl -H 'Content-Type: application/json' 0.0.0.0:8083/connectors --data @/debezium.json
+docker exec -i debezium-debezium curl -H 'Content-Type: application/json' 0.0.0.0:8083/connectors --data @/debezium.json
 ```
 
 ---
 
 ## Show all connectors
 
-docker exec -i version-3-debezium-1 curl http://localhost:8083/connectors
+docker exec -i debezium-debezium curl http://localhost:8083/connectors
 
 ## Remove a connector
 
-docker exec -i version-3-debezium-1 curl -X DELETE http://localhost:8083/connectors/debezium-connector
+docker exec -i debezium-debezium curl -X DELETE http://localhost:8083/connectors/debezium-connector

@@ -12,11 +12,11 @@
     "table.include.list": "public.user",
     "topic.prefix": "dbz",
     "snapshot.mode": "never",
-    "_comment_snapshot.mode": "never push old message into topic when restart debezium",
+    "_comment_snapshot.mode": "this option will never push old message into topic when restart debezium",
     "transforms": "Combine",
     "transforms.Combine.type": "io.debezium.transforms.ByLogicalTableRouter",
     "transforms.Combine.topic.regex": "(.*)",
-    "transforms.Combine.topic.replacement": "one-om-blink-dev-inquiry-update_private",
+    "transforms.Combine.topic.replacement": "debezium-topic-localhost",
     "_comment_transforms": "customize topic name"
   }
 }
